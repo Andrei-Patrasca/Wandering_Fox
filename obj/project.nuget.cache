@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "dgSpecHash": "xQlxxadmWhM=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Andrei\\.Net_Projects\\FinalProject.NET\\TheAdventure.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Andrei\\.nuget\\packages\\microsoft.dotnet.platformabstractions\\3.1.6\\microsoft.dotnet.platformabstractions.3.1.6.nupkg.sha512",
+    "C:\\Users\\Andrei\\.nuget\\packages\\microsoft.extensions.dependencymodel\\9.0.9\\microsoft.extensions.dependencymodel.9.0.9.nupkg.sha512",
+    "C:\\Users\\Andrei\\.nuget\\packages\\silk.net.core\\2.23.0\\silk.net.core.2.23.0.nupkg.sha512",
+    "C:\\Users\\Andrei\\.nuget\\packages\\silk.net.input.common\\2.23.0\\silk.net.input.common.2.23.0.nupkg.sha512",
+    "C:\\Users\\Andrei\\.nuget\\packages\\silk.net.input.sdl\\2.23.0\\silk.net.input.sdl.2.23.0.nupkg.sha512",
+    "C:\\Users\\Andrei\\.nuget\\packages\\silk.net.maths\\2.23.0\\silk.net.maths.2.23.0.nupkg.sha512",
+    "C:\\Users\\Andrei\\.nuget\\packages\\silk.net.sdl\\2.23.0\\silk.net.sdl.2.23.0.nupkg.sha512",
+    "C:\\Users\\Andrei\\.nuget\\packages\\silk.net.windowing.common\\2.23.0\\silk.net.windowing.common.2.23.0.nupkg.sha512",
+    "C:\\Users\\Andrei\\.nuget\\packages\\silk.net.windowing.sdl\\2.23.0\\silk.net.windowing.sdl.2.23.0.nupkg.sha512",
+    "C:\\Users\\Andrei\\.nuget\\packages\\ultz.native.sdl\\2.32.10\\ultz.native.sdl.2.32.10.nupkg.sha512"
+  ],
+  "logs": []
+}
