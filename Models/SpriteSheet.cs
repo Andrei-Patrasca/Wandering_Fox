@@ -1,3 +1,4 @@
+// AI-generated
 using TheAdventure.Engine;
 
 namespace TheAdventure.Models;
@@ -57,3 +58,4 @@ public unsafe class SpriteSheet
             screenX, screenY, destSize, destSize);
     }
 }
+// end AI-generated

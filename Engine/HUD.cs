@@ -1,3 +1,4 @@
+// AI-generated
 using Silk.NET.SDL;
 using Silk.NET.Maths;
 
@@ -112,3 +113,4 @@ public unsafe class HUD
         }
     }
 }
+// end AI-generated

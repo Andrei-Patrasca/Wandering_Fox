@@ -1,3 +1,4 @@
+// AI-generated
 using Silk.NET.SDL;
 using Silk.NET.Maths;
 using System.Runtime.InteropServices;
@@ -92,4 +93,5 @@ public unsafe class Renderer : IDisposable
             _sdl.DestroyTexture((Texture*)ptr);
         _textureCache.Clear();
     }
-}
+} 
+// end AI-generated

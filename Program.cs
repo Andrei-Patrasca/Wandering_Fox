@@ -160,7 +160,7 @@ public static class Program
 
         sdl.Quit();
     }
-
+// AI-generated
     private static unsafe void DrawEndScreen(Sdl sdl, SdlRenderer* sdlRenderer, GameState state, int highScore)
         {
             var overlay = new Rectangle<int>(0, 0, 800, 600);
@@ -182,6 +182,7 @@ public static class Program
         }
 
     // Pixel-art letter renderer — draws each char as a 5x3 block grid
+    // end AI-generated
     private static readonly Dictionary<char, bool[,]> Letters = BuildFont();
 
     private static unsafe void DrawBigText(Sdl sdl, SdlRenderer* r,
@@ -226,6 +227,7 @@ public static class Program
         }
     }
 
+// AI-generated
     private static Dictionary<char, bool[,]> BuildFont() => new()
         {
             ['A'] = new bool[,]{{false,true,false},{true,false,true},{true,true,true},{true,false,true},{true,false,true}},
@@ -262,3 +264,4 @@ public static class Program
             ['!'] = new bool[,]{{false,true,false},{false,true,false},{false,true,false},{false,false,false},{false,true,false}},
 };
 }
+// end AI-generated
