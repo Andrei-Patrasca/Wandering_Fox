@@ -26,21 +26,22 @@ public unsafe class Level
     private static readonly (int col, int row)[] TileDefs = new[]
     {
         (2, 0),  //  0 = grass
-        (0, 0),  //  1 = water (hazard)
-        (2, 1),  //  2 = stone path
-        (0, 4),  //  3 = lava (hazard)
+        (2, 1),  //  1 = bottom grass
+        (4, 0),  //  2 = stone
+        (4, 1),  //  3 = stone bottom
         (4, 0),  //  4 = dark grass
-        (1, 0),  //  5 = dirt
-        (3, 0),  //  6 = light stone
-        (0, 2),  //  7 = green checker
-        (1, 2),  //  8 = green checker 2
-        (3, 1),  //  9 = stone brick
-        (4, 1),  // 10 = stone brick 2
-        (5, 0),  // 11 = stone variant
-        (6, 0),  // 12 = tile variant
-        (7, 0),  // 13 = tile variant
-        (0, 3),  // 14 = brown floor
-        (1, 3),  // 15 = brown floor 2
+        (6, 0),  //  5 = light grass
+        (6, 1),  //  6 = light grass bottom
+        (0, 6),  //  7 = lava
+        (1, 6),  //  8 = lava2
+        (0, 0),  //  9 = water
+        (4, 6),  //  10 = dirt path
+        // (4, 1),  // 10 = stone brick 2
+        // (5, 0),  // 11 = stone variant
+        // (6, 0),  // 12 = tile variant
+        // (7, 0),  // 13 = tile variant
+        // (0, 3),  // 14 = brown floor
+        // (1, 3),  // 15 = brown floor 2
     };
 
     public Level(Renderer renderer, int[,] tiles,
@@ -95,5 +96,5 @@ public unsafe class Level
         return _tiles[row, col];
     }
 
-    public bool IsHazard(int t) => t == 1 || t == 3;
+    public bool IsHazard(int t) => t == 7 || t == 8 || t == 9;
 }

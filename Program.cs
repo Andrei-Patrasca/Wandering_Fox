@@ -49,15 +49,20 @@ public static class Program
                     portalCol: 10, portalRow: 7,
                     spawnCol: 1,  spawnRow: 1,
                     mushrooms: new() { (5,1),(6,6),(2,3),(9,7),(5,4) }),
+
+                new Level(renderer, LevelData.Level4,
+                    portalCol: 1, portalRow: 9, // Portal safe at the bottom-left map finish line
+                    spawnCol: 1,  spawnRow: 1,  // Starts player safely at the top-left corner
+                    mushrooms: new() { (3,2), (11,1), (9,6), (2,5) }) // Hidden along safe stone corridors
             };
 
             int   currentLevel = 0;
             var   player       = new PlayerObject(renderer,
                                      levels[0].SpawnX, levels[0].SpawnY);
 
-            var  timer = new Stopwatch();
+            var   timer = new Stopwatch();
             timer.Start();
-            var  ev   = new Event();
+            var   ev   = new Event();
             bool quit = false;
 
             while (!quit)
@@ -95,13 +100,13 @@ public static class Program
 
                 // ── Game Over / Won screens ────────────────────────────────
                 if (gameState.GameOver || gameState.Won)
-                    {
-                        scoreBoard.Save(gameState.Score);
-                        renderer.Clear(0, 0, 0);
-                        DrawEndScreen(sdl, sdlRenderer, gameState, scoreBoard.HighScore);
-                        renderer.Present();
-                        continue;
-                    }
+                {
+                    scoreBoard.Save(gameState.Score);
+                    renderer.Clear(0, 0, 0);
+                    DrawEndScreen(sdl, sdlRenderer, gameState, scoreBoard.HighScore);
+                    renderer.Present();
+                    continue;
+                }
 
                 // ── Update ─────────────────────────────────────────────────
                 var level = levels[currentLevel];
@@ -117,10 +122,10 @@ public static class Program
                 {
                     player.Kill();
                     gameState.LoseLife();
+                    if (gameState.GameOver) continue;
                 }
 
                 // Mushroom collect
-                
                 foreach (var collectible in level.Collectibles)
                 {
                     if (collectible.CheckCollect(player.X, player.Y, player.Size))
@@ -162,27 +167,27 @@ public static class Program
     }
 // AI-generated
     private static unsafe void DrawEndScreen(Sdl sdl, SdlRenderer* sdlRenderer, GameState state, int highScore)
-        {
-            var overlay = new Rectangle<int>(0, 0, 800, 600);
-            sdl.SetRenderDrawColor(sdlRenderer, 0, 0, 0, 220);
-            sdl.RenderFillRect(sdlRenderer, ref overlay);
+    {
+        var overlay = new Rectangle<int>(0, 0, 800, 600);
+        sdl.SetRenderDrawColor(sdlRenderer, 0, 0, 0, 220);
+        sdl.RenderFillRect(sdlRenderer, ref overlay);
 
-            if (state.Won)
-                DrawBigText(sdl, sdlRenderer, "YOU WON!", 800/2 - 120, 140, 255, 215, 0);
-            else
-                DrawBigText(sdl, sdlRenderer, "YOU DIED", 800/2 - 120, 140, 200, 0, 0);
+        if (state.Won)
+            DrawBigText(sdl, sdlRenderer, "YOU WON!", 800/2 - 120, 140, 255, 215, 0);
+        else
+            DrawBigText(sdl, sdlRenderer, "YOU DIED", 800/2 - 120, 140, 200, 0, 0);
 
-            DrawBigText(sdl, sdlRenderer, "SCORE",     800/2 - 120, 220, 255, 255, 255);
-            DrawBigText(sdl, sdlRenderer, state.Score.ToString("D5"), 800/2 - 60, 265, 255, 215, 0);
+        DrawBigText(sdl, sdlRenderer, "SCORE",     800/2 - 120, 220, 255, 255, 255);
+        DrawBigText(sdl, sdlRenderer, state.Score.ToString("D5"), 800/2 - 60, 265, 255, 215, 0);
 
-            DrawBigText(sdl, sdlRenderer, "BEST",      800/2 - 120, 320, 255, 255, 255);
-            DrawBigText(sdl, sdlRenderer, highScore.ToString("D5"),  800/2 - 60, 365, 0, 255, 100);
+        DrawBigText(sdl, sdlRenderer, "BEST",      800/2 - 120, 320, 255, 255, 255);
+        DrawBigText(sdl, sdlRenderer, highScore.ToString("D5"),  800/2 - 60, 365, 0, 255, 100);
 
-            DrawSmallText(sdl, sdlRenderer, "press any key to quit", 800/2 - 110, 440, 150, 150, 150);
-        }
+        DrawSmallText(sdl, sdlRenderer, "press any key to quit", 800/2 - 110, 440, 150, 150, 150);
+    }
 
-    // Pixel-art letter renderer — draws each char as a 5x3 block grid
-    // end AI-generated
+    
+
     private static readonly Dictionary<char, bool[,]> Letters = BuildFont();
 
     private static unsafe void DrawBigText(Sdl sdl, SdlRenderer* r,
@@ -229,39 +234,39 @@ public static class Program
 
 // AI-generated
     private static Dictionary<char, bool[,]> BuildFont() => new()
-        {
-            ['A'] = new bool[,]{{false,true,false},{true,false,true},{true,true,true},{true,false,true},{true,false,true}},
-            ['B'] = new bool[,]{{true,true,false},{true,false,true},{true,true,false},{true,false,true},{true,true,false}},
-            ['C'] = new bool[,]{{false,true,true},{true,false,false},{true,false,false},{true,false,false},{false,true,true}},
-            ['D'] = new bool[,]{{true,true,false},{true,false,true},{true,false,true},{true,false,true},{true,true,false}},
-            ['E'] = new bool[,]{{true,true,true},{true,false,false},{true,true,false},{true,false,false},{true,true,true}},
-            ['F'] = new bool[,]{{true,true,true},{true,false,false},{true,true,false},{true,false,false},{true,false,false}},
-            ['G'] = new bool[,]{{false,true,true},{true,false,false},{true,false,true},{true,false,true},{false,true,true}},
-            ['H'] = new bool[,]{{true,false,true},{true,false,true},{true,true,true},{true,false,true},{true,false,true}},
-            ['I'] = new bool[,]{{true,true,true},{false,true,false},{false,true,false},{false,true,false},{true,true,true}},
-            ['K'] = new bool[,]{{true,false,true},{true,false,true},{true,true,false},{true,false,true},{true,false,true}},
-            ['L'] = new bool[,]{{true,false,false},{true,false,false},{true,false,false},{true,false,false},{true,true,true}},
-            ['N'] = new bool[,]{{true,false,true},{true,true,true},{true,true,true},{true,false,true},{true,false,true}},
-            ['O'] = new bool[,]{{false,true,false},{true,false,true},{true,false,true},{true,false,true},{false,true,false}},
-            ['P'] = new bool[,]{{true,true,false},{true,false,true},{true,true,false},{true,false,false},{true,false,false}},
-            ['R'] = new bool[,]{{true,true,false},{true,false,true},{true,true,false},{true,false,true},{true,false,true}},
-            ['S'] = new bool[,]{{false,true,true},{true,false,false},{false,true,false},{false,false,true},{true,true,false}},
-            ['T'] = new bool[,]{{true,true,true},{false,true,false},{false,true,false},{false,true,false},{false,true,false}},
-            ['U'] = new bool[,]{{true,false,true},{true,false,true},{true,false,true},{true,false,true},{false,true,false}},
-            ['W'] = new bool[,]{{true,false,true},{true,false,true},{true,true,true},{true,true,true},{true,false,true}},
-            ['Y'] = new bool[,]{{true,false,true},{true,false,true},{false,true,false},{false,true,false},{false,true,false}},
-            ['0'] = new bool[,]{{true,true,true},{true,false,true},{true,false,true},{true,false,true},{true,true,true}},
-            ['1'] = new bool[,]{{false,true,false},{false,true,false},{false,true,false},{false,true,false},{false,true,false}},
-            ['2'] = new bool[,]{{true,true,true},{false,false,true},{true,true,true},{true,false,false},{true,true,true}},
-            ['3'] = new bool[,]{{true,true,true},{false,false,true},{true,true,true},{false,false,true},{true,true,true}},
-            ['4'] = new bool[,]{{true,false,true},{true,false,true},{true,true,true},{false,false,true},{false,false,true}},
-            ['5'] = new bool[,]{{true,true,true},{true,false,false},{true,true,true},{false,false,true},{true,true,true}},
-            ['6'] = new bool[,]{{true,true,true},{true,false,false},{true,true,true},{true,false,true},{true,true,true}},
-            ['7'] = new bool[,]{{true,true,true},{false,false,true},{false,false,true},{false,false,true},{false,false,true}},
-            ['8'] = new bool[,]{{true,true,true},{true,false,true},{true,true,true},{true,false,true},{true,true,true}},
-            ['9'] = new bool[,]{{true,true,true},{true,false,true},{true,true,true},{false,false,true},{true,true,true}},
-            [':'] = new bool[,]{{false,false,false},{false,true,false},{false,false,false},{false,true,false},{false,false,false}},
-            ['!'] = new bool[,]{{false,true,false},{false,true,false},{false,true,false},{false,false,false},{false,true,false}},
-};
+    {
+        ['A'] = new bool[,]{{false,true,false},{true,false,true},{true,true,true},{true,false,true},{true,false,true}},
+        ['B'] = new bool[,]{{true,true,false},{true,false,true},{true,true,false},{true,false,true},{true,true,false}},
+        ['C'] = new bool[,]{{false,true,true},{true,false,false},{true,false,false},{true,false,false},{false,true,true}},
+        ['D'] = new bool[,]{{true,true,false},{true,false,true},{true,false,true},{true,false,true},{true,true,false}},
+        ['E'] = new bool[,]{{true,true,true},{true,false,false},{true,true,false},{true,false,false},{true,true,true}},
+        ['F'] = new bool[,]{{true,true,true},{true,false,false},{true,true,false},{true,false,false},{true,false,false}},
+        ['G'] = new bool[,]{{false,true,true},{true,false,false},{true,false,true},{true,false,true},{false,true,true}},
+        ['H'] = new bool[,]{{true,false,true},{true,false,true},{true,true,true},{true,false,true},{true,false,true}},
+        ['I'] = new bool[,]{{true,true,true},{false,true,false},{false,true,false},{false,true,false},{true,true,true}},
+        ['K'] = new bool[,]{{true,false,true},{true,false,true},{true,true,false},{true,false,true},{true,false,true}},
+        ['L'] = new bool[,]{{true,false,false},{true,false,false},{true,false,false},{true,false,false},{true,true,true}},
+        ['N'] = new bool[,]{{true,false,true},{true,true,true},{true,true,true},{true,false,true},{true,false,true}},
+        ['O'] = new bool[,]{{false,true,false},{true,false,true},{true,false,true},{true,false,true},{false,true,false}},
+        ['P'] = new bool[,]{{true,true,false},{true,false,true},{true,true,false},{true,false,false},{true,false,false}},
+        ['R'] = new bool[,]{{true,true,false},{true,false,true},{true,true,false},{true,false,true},{true,false,true}},
+        ['S'] = new bool[,]{{false,true,true},{true,false,false},{false,true,false},{false,false,true},{true,true,false}},
+        ['T'] = new bool[,]{{true,true,true},{false,true,false},{false,true,false},{false,true,false},{false,true,false}},
+        ['U'] = new bool[,]{{true,false,true},{true,false,true},{true,false,true},{true,false,true},{false,true,false}},
+        ['W'] = new bool[,]{{true,false,true},{true,false,true},{true,true,true},{true,true,true},{true,false,true}},
+        ['Y'] = new bool[,]{{true,false,true},{true,false,true},{false,true,false},{false,true,false},{false,true,false}},
+        ['0'] = new bool[,]{{true,true,true},{true,false,true},{true,false,true},{true,false,true},{true,true,true}},
+        ['1'] = new bool[,]{{false,true,false},{false,true,false},{false,true,false},{false,true,false},{false,true,false}},
+        ['2'] = new bool[,]{{true,true,true},{false,false,true},{true,true,true},{true,false,false},{true,true,true}},
+        ['3'] = new bool[,]{{true,true,true},{false,false,true},{true,true,true},{false,false,true},{true,true,true}},
+        ['4'] = new bool[,]{{true,false,true},{true,false,true},{true,true,true},{false,false,true},{false,false,true}},
+        ['5'] = new bool[,]{{true,true,true},{true,false,false},{true,true,true},{false,false,true},{true,true,true}},
+        ['6'] = new bool[,]{{true,true,true},{true,false,false},{true,true,true},{true,false,true},{true,true,true}},
+        ['7'] = new bool[,]{{true,true,true},{false,false,true},{false,false,true},{false,false,true},{false,false,true}},
+        ['8'] = new bool[,]{{true,true,true},{true,false,true},{true,true,true},{true,false,true},{true,true,true}},
+        ['9'] = new bool[,]{{true,true,true},{true,false,true},{true,true,true},{false,false,true},{true,true,true}},
+        [':'] = new bool[,]{{false,false,false},{false,true,false},{false,false,false},{false,true,false},{false,false,false}},
+        ['!'] = new bool[,]{{false,true,false},{false,true,false},{false,true,false},{false,false,false},{false,true,false}},
+    };
 }
-// end AI-generated
+//AI-generated stop
